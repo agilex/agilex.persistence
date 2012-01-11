@@ -3,12 +3,23 @@
 # project vars
 nuget='./tools/nuget.exe'
 msbuild='/c/Windows/Microsoft.NET/Framework/v4.0.30319/msbuild.exe'
-project_src_dir='./agilex.persistence.nhibernate'
+project_src_dir='./src/agilex.persistence.nhibernate'
 build_mode='Release'
 project_output_dir="$project_src_dir/bin/$build_mode"
 build_dir="./build"
 package_output_dir="./deploy"
 package_spec_file="$build_dir/Package.nuspec"
+build_log="$build_dir/build_log.txt"
+
+# build project
+$msbuild $project_src_dir/agilex.persistence.nhibernate.csproj /property:Configuration=$build_mode > $build_log
+
+errors=`cat $build_log | grep -i "Build FAILED"`
+if [ "" != "${errors}" ]
+then
+	echo "Build failed"
+	exit -1
+fi
 
 # increment build version number
 currentVersion=`grep version $package_spec_file | cut -d '>' -f2 | cut -d '<' -f1`
@@ -23,9 +34,6 @@ then
 fi
 echo "Using $newversion"
 sed -i -e s/\<version\>[0-9]*.[0-9]*.[0-9]*.[0-9]*\</\<version\>$newversion\</ $package_spec_file
-
-# build project
-$msbuild $project_src_dir/agilex.persistence.nhibernate.csproj /property:Configuration=$build_mode
 
 # copy dlls to lib dir
 cp $project_output_dir/agilex.persistence.nhibernate.dll $build_dir/lib/net40
