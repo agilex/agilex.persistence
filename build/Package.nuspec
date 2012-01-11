@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>agilex.persistence</id>
+    <version>1.0.0.1</version>
+    <authors>agilex</authors>
+    <owners>agilex</owners>
+    <projectUrl>http://github.com/agilex/agilex.persistence</projectUrl>
+    <description>Collection of classes supporting the repository pattern and usage with fluent nhibernate</description>
+    <copyright>Copyright agileX 2012</copyright>
+    <dependencies>
+      <dependency id="FluentNHibernate" version="1.2.0.712" />
+    </dependencies>
+  </metadata>
+</package>
