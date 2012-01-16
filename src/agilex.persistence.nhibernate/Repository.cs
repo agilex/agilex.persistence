@@ -16,20 +16,22 @@ namespace agilex.persistence.nhibernate
             _session = session;
         }
 
-        #region IDisposable Members
+        #region IRepository Members
 
         public void Dispose()
         {
-            if (_transaction != null) 
-                try {_transaction.Commit();} catch(Exception) {}
+            if (_transaction != null)
+                try
+                {
+                    _transaction.Commit();
+                }
+                catch (Exception)
+                {
+                }
             _session.Flush();
             _session.Close();
             _session.Dispose();
         }
-
-        #endregion
-
-        #region IRepository Members
 
         public T Get<T>(Guid id) where T : class
         {
@@ -61,9 +63,10 @@ namespace agilex.persistence.nhibernate
             _transaction = _session.BeginTransaction();
         }
 
+
         public void Commit()
         {
-            if (!_transaction.WasCommitted) 
+            if (!_transaction.WasCommitted && !_transaction.WasRolledBack)
                 _transaction.Commit();
         }
 
@@ -73,5 +76,15 @@ namespace agilex.persistence.nhibernate
         }
 
         #endregion
+
+        public T GetOrThrowNotFound<T>(Guid id) where T : class
+        {
+            var e = Get<T>(id);
+            if (e == null)
+            {
+                throw new EntityNotFoundException(string.Format("{0} with Id {1} not found", typeof (T).Name, id));
+            }
+            return e;
+        }
     }
 }

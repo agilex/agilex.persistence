@@ -14,5 +14,6 @@ namespace agilex.persistence
         void BeginTransaction();
         void Commit();
         void Rollback();
+        T GetOrThrowNotFound<T>(Guid id) where T : class;
     }
 }
