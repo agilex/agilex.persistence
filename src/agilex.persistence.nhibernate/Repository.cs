@@ -38,6 +38,11 @@ namespace agilex.persistence.nhibernate
             return _session.Get<T>(id);
         }
 
+        public T Get<T>(int id) where T : class
+        {
+            return _session.Get<T>(id);
+        }
+
         public IEnumerable<T> GetAll<T>() where T : class
         {
             return _session.CreateCriteria<T>().List<T>();
@@ -75,8 +80,6 @@ namespace agilex.persistence.nhibernate
             _transaction.Rollback();
         }
 
-        #endregion
-
         public T GetOrThrowNotFound<T>(Guid id) where T : class
         {
             var e = Get<T>(id);
@@ -86,5 +89,17 @@ namespace agilex.persistence.nhibernate
             }
             return e;
         }
+
+        public T GetOrThrowNotFound<T>(int id) where T : class
+        {
+            var e = Get<T>(id);
+            if (e == null)
+            {
+                throw new EntityNotFoundException(string.Format("{0} with Id {1} not found", typeof (T).Name, id));
+            }
+            return e;
+        }
+
+        #endregion
     }
 }
