@@ -43,6 +43,11 @@ namespace agilex.persistence.nhibernate
             return _session.Get<T>(id);
         }
 
+        public bool Exists<T>(int id) where T : class
+        {
+            return _session.Get<T>(id) != null;
+        }
+
         public IEnumerable<T> GetAll<T>() where T : class
         {
             return _session.CreateCriteria<T>().List<T>();
