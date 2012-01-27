@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRepositoryLocator.cs" />
     <Compile Include="DatabaseConfigurationParams.cs" />
     <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="IDatabaseConfigurationParams.cs" />
