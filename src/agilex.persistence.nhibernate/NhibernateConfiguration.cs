@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
@@ -13,8 +14,7 @@ namespace agilex.persistence.nhibernate
         {
             return Fluently.Configure()
                 .Database(
-                    MsSqlConfiguration.MsSql2008. /*ShowSql().*/ConnectionString(
-                        m => m.FromAppSetting(configurationParams.AppSettingKeyForDbConnectionString)))
+                    ConfigureDbWith(configurationParams))
                 .Mappings(m =>
                               {
                                   foreach (Assembly assembly in configurationParams.Assemblies)
@@ -25,7 +25,30 @@ namespace agilex.persistence.nhibernate
                 .ExposeConfiguration(cfg => BuildSchema(cfg, configurationParams.BlowDbAway, configurationParams.SchemaExportLocation))
                 .BuildSessionFactory();
         }
-        
+
+        IPersistenceConfigurer ConfigureDbWith(IDatabaseConfigurationParams configurationParams)
+        {
+            if (configurationParams.Dialect == Dialect.SqlServer2008)
+                return MsSqlConfiguration.MsSql2008.ConnectionString(
+                    m => m.FromAppSetting(configurationParams.AppSettingKeyForDbConnectionString));
+            if (configurationParams.Dialect == Dialect.SqlServer2005)
+                return MsSqlConfiguration.MsSql2005.ConnectionString(
+                    m => m.FromAppSetting(configurationParams.AppSettingKeyForDbConnectionString));
+            if (configurationParams.Dialect == Dialect.Oracle10)
+                return OracleClientConfiguration.Oracle10.ConnectionString(
+                    m => m.FromAppSetting(configurationParams.AppSettingKeyForDbConnectionString));
+            if (configurationParams.Dialect == Dialect.Oracle9)
+                return OracleClientConfiguration.Oracle9.ConnectionString(
+                    m => m.FromAppSetting(configurationParams.AppSettingKeyForDbConnectionString));
+            if (configurationParams.Dialect == Dialect.MySQL)
+                return MySQLConfiguration.Standard.ConnectionString(
+                    m => m.FromAppSetting(configurationParams.AppSettingKeyForDbConnectionString));
+            if (configurationParams.Dialect == Dialect.Postgres)
+                return PostgreSQLConfiguration.Standard.ConnectionString(
+                    m => m.FromAppSetting(configurationParams.AppSettingKeyForDbConnectionString));
+            throw new Exception("Unknown DB Dialiect");
+        }
+
         protected virtual void BuildSchema(Configuration config, bool blowDbAway, string schemaExportLocation)
         {
             if (!blowDbAway) return;
