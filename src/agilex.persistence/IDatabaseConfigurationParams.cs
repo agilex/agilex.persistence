@@ -9,5 +9,6 @@ namespace agilex.persistence
         IEnumerable<Assembly> Assemblies { get; }
         string SchemaExportLocation { get; }
         bool BlowDbAway { get; }
+        Dialect Dialect { get; }
     }
 }
