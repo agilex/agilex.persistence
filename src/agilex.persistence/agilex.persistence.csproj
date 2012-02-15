@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dialect.cs" />
+    <Compile Include="CustomRepository.cs" />
     <Compile Include="IRepositoryLocator.cs" />
     <Compile Include="DatabaseConfigurationParams.cs" />
     <Compile Include="EntityNotFoundException.cs" />

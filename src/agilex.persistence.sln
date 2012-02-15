@@ -8,7 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{9D0E3EF0-9D43-4B93-A3B7-AE86283DC19C}"
 	ProjectSection(SolutionItems) = preProject
 		build_and_publish_nuget_package.sh = build_and_publish_nuget_package.sh
-		build\Package.nuspec = build\Package.nuspec
+		..\build\Package.nuspec = ..\build\Package.nuspec
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{9F571904-332D-4A8B-9ABD-818203F25218}"
