@@ -10,5 +10,6 @@ namespace agilex.persistence
         string SchemaExportLocation { get; }
         bool BlowDbAway { get; }
         Dialect Dialect { get; }
+        bool ShowSql { get; }
     }
 }
