@@ -36,6 +36,7 @@ echo "Using $newversion"
 sed -i -e s/\<version\>[0-9]*.[0-9]*.[0-9]*.[0-9]*\</\<version\>$newversion\</ $package_spec_file
 
 # copy dlls to lib dir
+mkdir -p ./build/lib/net40
 cp $project_output_dir/agilex.persistence.nhibernate.dll $build_dir/lib/net40
 cp $project_output_dir/agilex.persistence.dll $build_dir/lib/net40
 
