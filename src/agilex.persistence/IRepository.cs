@@ -5,9 +5,11 @@ using System.Linq;
 namespace agilex.persistence
 {
     public interface IRepository : IDisposable
-    {
+    {        
+        int Count<T>() where T : class;
         T Get<T>(Guid id) where T : class;
         T Get<T>(int id) where T : class;
+        T Get<T>(long id) where T : class;
         bool Exists<T>(int id) where T : class;
         IEnumerable<T> GetAll<T>() where T : class;
         IQueryable<T> Query<T>() where T : class;
@@ -18,5 +20,6 @@ namespace agilex.persistence
         void Rollback();
         T GetOrThrowNotFound<T>(Guid id) where T : class;
         T GetOrThrowNotFound<T>(int id) where T : class;
+        T GetOrThrowNotFound<T>(long id) where T : class;
     }
 }

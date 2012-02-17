@@ -33,12 +33,22 @@ namespace agilex.persistence.nhibernate
             _session.Dispose();
         }
 
+        public int Count<T>() where T : class
+        {
+            return _session.QueryOver<T>().ToRowCountQuery().FutureValue<int>().Value;
+        }
+
         public T Get<T>(Guid id) where T : class
         {
             return _session.Get<T>(id);
         }
 
         public T Get<T>(int id) where T : class
+        {
+            return _session.Get<T>(id);
+        }
+
+        public T Get<T>(long id) where T : class
         {
             return _session.Get<T>(id);
         }
@@ -87,21 +97,24 @@ namespace agilex.persistence.nhibernate
 
         public T GetOrThrowNotFound<T>(Guid id) where T : class
         {
-            var e = Get<T>(id);
-            if (e == null)
-            {
-                throw new EntityNotFoundException(string.Format("{0} with Id {1} not found", typeof (T).Name, id));
-            }
-            return e;
+            return _GetOrThrow<T>(id);
         }
 
         public T GetOrThrowNotFound<T>(int id) where T : class
         {
-            var e = Get<T>(id);
+            return _GetOrThrow<T>(id);
+        }
+
+        public T GetOrThrowNotFound<T>(long id) where T : class
+        {
+            return _GetOrThrow<T>(id);
+        }
+
+        T _GetOrThrow<T>(object id) where T : class
+        {
+            var e = _session.Get<T>(id);
             if (e == null)
-            {
-                throw new EntityNotFoundException(string.Format("{0} with Id {1} not found", typeof (T).Name, id));
-            }
+                throw new EntityNotFoundException(string.Format("{0} with Id {1} not found", typeof(T).Name, id));
             return e;
         }
 

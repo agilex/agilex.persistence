@@ -21,7 +21,8 @@ namespace agilex.persistence
         public IEnumerable<Assembly> Assemblies { get; private set; }
         public string SchemaExportLocation { get; private set; }
         public bool BlowDbAway { get; private set; }
-        public Dialect Dialect { get; private set; }        
+        public Dialect Dialect { get; private set; }
+        public bool ShowSql { get; private set; }
 
         #endregion
     }

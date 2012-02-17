@@ -7,6 +7,7 @@ namespace agilex.persistence
         MySQL,
         Postgres,
         SqlServer2005,
-        Oracle9
+        Oracle9,
+        SqlLite
     }
 }
