@@ -15,7 +15,7 @@ namespace agilex.persistence.nhibernate
     {
         public ISessionFactory GetSessionFactory(IDatabaseConfigurationParams configurationParams)
         {
-            return Fluently.Configure()
+            :return Fluently.Configure()
                 .Database(ConfigureDbWith(configurationParams))
                 .Mappings(
                     m =>
@@ -73,10 +73,11 @@ namespace agilex.persistence.nhibernate
         {
             if (showSql) config.Interceptor = new LoggingInterceptor();
             if (!blowDbAway) return;
-            new SchemaExport(config)
-                .SetOutputFile(schemaExportLocation)
-                .Execute(true /*script*/, true /*export to db*/,
-                         false /*just drop*/);
+            var schemaExport = new SchemaExport(config);
+            if (!string.IsNullOrEmpty(schemaExportLocation))
+                schemaExport.SetOutputFile(schemaExportLocation);
+
+            schemaExport.Execute(!string.IsNullOrEmpty(schemaExportLocation), true, false);
         }
     }
 

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>agilex.persistence</id>
-    <version>1.0.0.17</version>
+    <version>1.0.0.18</version>
     <authors>agilex</authors>
     <owners>agilex</owners>
     <projectUrl>http://github.com/agilex/agilex.persistence</projectUrl>
